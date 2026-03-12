@@ -4,7 +4,7 @@ import { useAuth } from '../auth/AuthProvider';
 import { useForm } from 'react-hook-form';
 
 export default function Register() {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const auth = useAuth();
