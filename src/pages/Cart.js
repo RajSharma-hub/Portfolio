@@ -1,68 +1,45 @@
 import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+ 
 export default function Cart({ cartItems, onRemove, onUpdateQuantity }) {
   const navigate = useNavigate();
   const total = cartItems.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0);
   const itemCount = cartItems.reduce((s, it) => s + (it.quantity || 1), 0);
-
+ 
   return (
     <>
       <style>{`
         .cart-page {
-          min-height: calc(100vh - 64px);
-          padding: 48px 40px 80px;
+          min-height: calc(100vh - 68px);
+          padding: 52px 44px 100px;
           animation: fadeUp 0.4s ease both;
         }
-        .cart-inner {
-          max-width: 860px;
-          margin: 0 auto;
-        }
+        .cart-inner { max-width: 880px; margin: 0 auto; }
         .cart-eyebrow {
-          font-size: 11px;
-          letter-spacing: 0.2em;
+          font-size: 10px;
+          letter-spacing: 0.25em;
           text-transform: uppercase;
           color: var(--gold);
-          font-weight: 600;
-          margin-bottom: 8px;
+          font-weight: 700;
+          margin-bottom: 10px;
         }
         .cart-title {
           font-family: var(--font-display);
-          font-size: clamp(32px, 4vw, 48px);
-          font-weight: 600;
+          font-size: clamp(34px, 4vw, 50px);
+          font-weight: 500;
           color: var(--text);
-          margin-bottom: 4px;
+          margin-bottom: 6px;
         }
-        .cart-subtitle {
-          font-size: 14px;
-          color: var(--text-3);
-          margin-bottom: 36px;
-        }
-        .cart-empty {
-          text-align: center;
-          padding: 80px 0;
-        }
-        .cart-empty-icon {
-          font-size: 48px;
-          margin-bottom: 20px;
-          opacity: 0.4;
-        }
-        .cart-empty-text {
-          font-size: 17px;
-          color: var(--text-3);
-          margin-bottom: 24px;
-        }
-        .cart-items {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-          margin-bottom: 32px;
-        }
+        .cart-subtitle { font-size: 14px; color: var(--text-3); margin-bottom: 40px; }
+        .cart-empty { text-align: center; padding: 100px 0; }
+        .cart-empty-icon { font-size: 52px; margin-bottom: 22px; opacity: 0.35; }
+        .cart-empty-text { font-size: 17px; color: var(--text-3); margin-bottom: 28px; }
+        .cart-items { display: flex; flex-direction: column; gap: 14px; margin-bottom: 34px; }
         .cart-item {
           display: flex;
           align-items: center;
-          gap: 20px;
-          padding: 20px 24px;
+          gap: 22px;
+          padding: 22px 26px;
           background: var(--bg-card);
           border: 1px solid var(--border);
           border-radius: var(--radius-md);
@@ -71,20 +48,16 @@ export default function Cart({ cartItems, onRemove, onUpdateQuantity }) {
         }
         .cart-item:hover { border-color: var(--border-2); }
         .cart-item-img {
-          width: 68px;
-          height: 68px;
+          width: 72px; height: 72px;
           border-radius: 10px;
           object-fit: cover;
           background: var(--bg-raised);
           flex-shrink: 0;
         }
-        .cart-item-info {
-          flex: 1;
-          min-width: 0;
-        }
+        .cart-item-info { flex: 1; min-width: 0; }
         .cart-item-name {
           font-family: var(--font-display);
-          font-size: 19px;
+          font-size: 20px;
           font-weight: 600;
           color: var(--text);
           margin-bottom: 4px;
@@ -92,29 +65,31 @@ export default function Cart({ cartItems, onRemove, onUpdateQuantity }) {
           overflow: hidden;
           text-overflow: ellipsis;
         }
-        .cart-item-price {
-          font-size: 13px;
-          color: var(--text-3);
-        }
-        .cart-item-right {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          flex-shrink: 0;
-        }
+        .cart-item-price { font-size: 13px; color: var(--text-3); }
+        .cart-item-right { display: flex; align-items: center; gap: 18px; flex-shrink: 0; }
         .cart-item-subtotal {
           font-family: var(--font-display);
-          font-size: 18px;
+          font-size: 19px;
           font-weight: 600;
           color: var(--gold);
-          min-width: 72px;
+          min-width: 76px;
           text-align: right;
         }
         .cart-summary {
           background: var(--bg-card);
           border: 1px solid var(--border);
-          border-radius: var(--radius-lg);
-          padding: 28px 32px;
+          border-radius: var(--radius-xl);
+          padding: 30px 34px;
+          position: relative;
+          overflow: hidden;
+        }
+        .cart-summary::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0; right: 0;
+          height: 2px;
+          background: linear-gradient(90deg, transparent, var(--gold), transparent);
+          opacity: 0.4;
         }
         .cart-summary-row {
           display: flex;
@@ -122,45 +97,43 @@ export default function Cart({ cartItems, onRemove, onUpdateQuantity }) {
           align-items: center;
           font-size: 14px;
           color: var(--text-2);
-          margin-bottom: 12px;
+          margin-bottom: 13px;
         }
         .cart-summary-row.total {
-          font-size: 22px;
+          font-size: 23px;
           font-family: var(--font-display);
           font-weight: 600;
           color: var(--text);
           margin-bottom: 0;
-          padding-top: 16px;
+          padding-top: 18px;
           border-top: 1px solid var(--border);
           margin-top: 8px;
         }
         .cart-summary-row.total span:last-child { color: var(--gold); }
-        .cart-actions {
-          display: flex;
-          gap: 12px;
-          margin-top: 24px;
-        }
-        @media (max-width: 640px) {
-          .cart-page { padding: 32px 20px 60px; }
+        .cart-actions { display: flex; gap: 12px; margin-top: 26px; }
+        @media (max-width: 700px) {
+          .cart-page { padding: 32px 20px 72px; }
           .cart-item { flex-wrap: wrap; }
-          .cart-item-img { width: 56px; height: 56px; }
+          .cart-item-img { width: 58px; height: 58px; }
           .cart-actions { flex-direction: column; }
         }
       `}</style>
-
+ 
       <div className="cart-page">
         <div className="cart-inner">
           <div className="cart-eyebrow">Review</div>
           <h1 className="cart-title">Your Cart</h1>
           <p className="cart-subtitle">
-            {itemCount > 0 ? `${itemCount} item${itemCount !== 1 ? 's' : ''} selected` : 'Nothing here yet'}
+            {itemCount > 0
+              ? `${itemCount} item${itemCount !== 1 ? 's' : ''} selected`
+              : 'Nothing here yet'}
           </p>
-
+ 
           {cartItems.length === 0 ? (
             <div className="cart-empty">
               <div className="cart-empty-icon">🛒</div>
               <p className="cart-empty-text">Your cart is empty</p>
-              <Link to="/" className="btn-gold" style={{ textDecoration: 'none', borderRadius: 'var(--radius-sm)' }}>
+              <Link to="/" className="btn-gold" style={{ textDecoration: 'none' }}>
                 Browse Products
               </Link>
             </div>
@@ -190,19 +163,16 @@ export default function Cart({ cartItems, onRemove, onUpdateQuantity }) {
                   </div>
                 ))}
               </div>
-
+ 
               <div className="cart-summary">
                 <div className="cart-summary-row">
-                  <span>Subtotal</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>Subtotal</span><span>${total.toFixed(2)}</span>
                 </div>
                 <div className="cart-summary-row">
-                  <span>Shipping</span>
-                  <span style={{ color: 'var(--green)' }}>Free</span>
+                  <span>Shipping</span><span style={{ color: 'var(--green)' }}>Free</span>
                 </div>
                 <div className="cart-summary-row total">
-                  <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>Total</span><span>${total.toFixed(2)}</span>
                 </div>
                 <div className="cart-actions">
                   <button className="btn-ghost" onClick={() => navigate(-1)}>← Continue Shopping</button>
