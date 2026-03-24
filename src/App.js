@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
  
+import bgImage from './assets/bg.jpg';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Marquee from './components/Marquee';
@@ -14,6 +15,7 @@ import { AuthProvider } from './auth/AuthProvider';
 import ProtectedRoute from './auth/ProtectedRoute';
 import Login from './pages/Login';
 import Register from './pages/Register';
+
  
 
 const PRODUCTS = [
@@ -60,6 +62,10 @@ export default function App() {
   useEffect(() => {
     try { localStorage.setItem('cart', JSON.stringify(cartItems)); } catch {}
   }, [cartItems]);
+
+  useEffect(() => {
+  document.body.style.setProperty('--bg-image', `url(${bgImage})`);
+}, []);
  
   const onAddToCart = (product, quantity = 1) => {
     const qty = Math.max(1, Number(quantity) || 1);
