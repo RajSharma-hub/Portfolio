@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
- 
+
 import bgImage from './assets/bg.jpg';
 import Header from './components/Header';
 import Hero from './components/Hero';
@@ -50,6 +50,15 @@ const PRODUCTS = [
 ];
  
 export default function App() {
+
+  useEffect(() => {
+    document.body.style.backgroundImage = `url(${bgImage})`;
+    document.body.style.backgroundSize = 'cover';
+    document.body.style.backgroundPosition = 'center';
+    document.body.style.backgroundAttachment = 'fixed';
+    document.body.style.backgroundRepeat = 'no-repeat';
+  }, []);
+  
   const [cartItems, setCartItems] = useState(() => {
     try {
       const saved = localStorage.getItem('cart');
@@ -63,9 +72,7 @@ export default function App() {
     try { localStorage.setItem('cart', JSON.stringify(cartItems)); } catch {}
   }, [cartItems]);
 
-  useEffect(() => {
-  document.body.style.setProperty('--bg-image', `url(${bgImage})`);
-}, []);
+  
  
   const onAddToCart = (product, quantity = 1) => {
     const qty = Math.max(1, Number(quantity) || 1);

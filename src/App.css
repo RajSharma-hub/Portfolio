@@ -51,11 +51,9 @@
   --header-h:      68px;
 }
  
-html,
-body,
-#root {
+html, body, #root {
   min-height: 100%;
-  background: var(--bg);
+  background: transparent; 
   color: var(--text);
   font-family: var(--font-body);
   font-size: 15px;
@@ -63,14 +61,12 @@ body,
   overflow-x: hidden;
 }
  
-body::before {
+body::after {
   content: '';
   position: fixed;
   inset: 0;
-  background: var(--bg-image) center/cover no-repeat;
-  filter: blur(28px) brightness(0.45) saturate(1.4);
-  transform: scale(1.1);
-  z-index: -2;
+  background: rgba(12, 12, 16, 0.75);
+  z-index: -1;
   pointer-events: none;
 }
  
